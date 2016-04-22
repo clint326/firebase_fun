@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+</head>
+<body>
+<script>
+  // Get a database reference to our posts
+  
+  x = JSON.stringify('foo');
+  console.log(x);
+  var ref = new Firebase("https://clint-dev.firebaseio.com/");
+  
+  // Attach an asynchronous callback to read the data at our posts reference
+  ref.on("value", function(snapshot) {
+    x = snapshot.numChildren();
+    y = snapshot.val();
+    
+    z = JSON.stringify(y);
+    document.writeln(z);
+    console.log(x);
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+</script>
+</body>
+</html>
