@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Firebase Fun</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 </head>
@@ -15,53 +13,46 @@
     <div class="container">
     <h3><a href="index.htm">Firebase Fun</a> - User Registration</h3>
     <hr/>
-    <p><b>Create a new user</b></p>
-    <form>
     <div class="form-group">
         <label>Email:</label>
         <input type="email" class="form-control" id="email">
-        <br/>
+    </div>
+    <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-control" id="password">
-        <br/>
+    </div>
         <button id="btUpdateMessage" class="btn btn-primary">Submit</button>      
-    </div>
-    </form>
-    </div>
     
     <script>
-        var email = document.getElementById('email');
-        var password = document.getElementById('password');
-        var btUpdateMessage = document.getElementById('btUpdateMessage');
+        $(document).ready(function(){
+            var email = document.getElementById('email');
+            var password = document.getElementById('password');
+            var btUpdateMessage = document.getElementById('btUpdateMessage');
         
-        btUpdateMessage.addEventListener('click', function() {
-            
-            console.log(email.value);
-            console.log(password.value);
+            btUpdateMessage.addEventListener('click', function() {
+          
+               var ref = new Firebase("https://clint-dev.firebaseio.com/firebase_fun");
            
-           var ref = new Firebase("https://clint-dev.firebaseio.com/firebase_fun");
-           
-           console.log("Got Here!");
-           
-           ref.createUser({
-               email: email.value,
-               password: password.value
-           }, function(error, userData) {
-               if (error) {
-                   switch (error.code) {
-                       case "EMAIL_TAKEN":
-                           console.log("The new user account cannot be created because the email is already in use.");
-                           break;
-                       case "INVALID_EMAIL":
-                           console.log("The specified email is not a valid email.");
-                           break;
-                       default:
-                           console.log("Error creating user:", error);
-                   }
-               } else {
-                   console.log("Successfully created user account with uid:", userData.uid);
-               }
-           })});
+               ref.createUser({
+                   email: email.value,
+                password: password.value
+            }, function(error, userData) {
+                   if (error) {
+                       switch (error.code) {
+                           case "EMAIL_TAKEN":
+                               console.log("The new user account cannot be created because the email is already in use.");
+                               break;
+                          case "INVALID_EMAIL":
+                             console.log("The specified email is not a valid email.");
+                             break;
+                          default:
+                             console.log("Error creating user:", error);
+                     }
+                } else {
+                    window.location = "index.htm";
+                    console.log("Successfully created user account with uid:", userData.uid);    
+                }
+            })})});
     </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Firebase Fun</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 </head>
@@ -12,14 +13,41 @@
     <div class="container">
     <h3><a href="index.htm">Firebase Fun</a> - User Login</h3>
     <hr/>
-    <p><b>Login:</b></p>
-    <form>
-        Email:<br>
-        <input type="text" id="email"><br/><br/>
-        Password:<br>
-        <input type="password" id="password"><br/><br/>
-        <input type="submit" value="Submit">
-    </form>
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" id="email">
     </div>
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-control" id="password">
+    </div>
+        <button id="btUpdateMessage" class="btn btn-primary">Submit</button>      
+    </div>
+    <script>
+        $(document).ready(function(){
+            var email = document.getElementById('email');
+            var password = document.getElementById('password');
+            var btUpdateMessage = document.getElementById('btUpdateMessage');
+            
+            console.log(email.value);
+            console.log(password.value);
+        
+            btUpdateMessage.addEventListener('click', function() {
+          
+                var ref = new Firebase("https://clint-dev.firebaseio.com/firebase_fun");
+                ref.authWithPassword({
+                    "email": email.value,
+                    "password": password.value
+                }, function(error, authData) {
+                    if (error) {
+                        console.log("Login Failed!", error);
+                    } else {
+                        window.location = "qset1.htm";
+                        console.log("Authenticated successfully with payload:", authData);
+                        console.log("Your gravatar is at:", authData.password.profileImageURL);
+                    }
+                }) 
+             })});
+    </script>
 </body>
 </html>

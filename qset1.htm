@@ -5,14 +5,38 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Firebase Fun</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <script>
+        var ref = new Firebase("https://clint-dev.firebaseio.com/firebase_fun");
+        var authData = ref.getAuth();
+        loggedin();
+        x = authData.password.email;
+        console.log(x);
+        $("#useremail").text("Clint was here!");
+        
+        function logout() {
+            ref.unauth();
+            console.log("Logging out")
+        }
+        
+        function loggedin() {
+            if (authData) {
+                console.log("Logged In!");
+            } else {
+                console.log("NOT logged in");
+            }
+        }
+        
+    </script>
 </head>
 <body>
     <div class="container">
     <h3><a href="index.htm">Firebase Fun</a> - Questions Set 1</h3>
     <hr/>
-    <form>
+    <div><img src="https://secure.gravatar.com/avatar/9601fe69b9d0d3f0daf166ebc06f9645" style="width:35px">&nbsp;<span id="useremail"></span>&nbsp;<a href="" onclick="logout()">Logout</a></div>
+    <hr/>
     <div class="form-group">
         <label>1.1 Who is buried in Grant's Tomb?</label>
         <input type="text" class="form-control" id="q11">
@@ -22,7 +46,7 @@
         <br/>
         <button id="btUpdateMessage" class="btn btn-primary">Next</button>
     </div>
-    </form>
+
 </body>
 </html>
 
